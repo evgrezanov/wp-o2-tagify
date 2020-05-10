@@ -1,22 +1,23 @@
 <?php
 /**
- * Plugin Name: wp-o2-tagify
- * Description: Add @category and #tag autocomplete links to O2 plugin
- * Plugin URI:  https://github.com/evgrezanov/wp-o2-tagify
- * Author URI:  https://evgrezanov.github.io/
- * Author:      Evgeniy Rezanov
- * Version:     1.0.0
- * GitHub Plugin URI: evgrezanov/wp-o2-tagify
- * GitHub Plugin URI: https://github.com/evgrezanov/wp-o2-tagify
- * Text Domain: wp-o2-tagify
+ * Plugin Name: wp-o2-tribute
+ * Description: Add <strong>@category</strong> and <strong>#tag</strong> autocomplete links to o2 plugin
+ * Plugin URI:  https://github.com/evgrezanov/wp-o2-tribute
+ * Author URI:  https://www.upwork.com/freelancers/~01ea58721977099d53
+ * Author:      <a href="https://www.upwork.com/freelancers/~01ea58721977099d53" target="_blank">Evgeniy Rezanov</a>
+ * Version:     1.2.0
+ * GitHub Plugin URI: evgrezanov/wp-o2-tribute
+ * GitHub Plugin URI: https://github.com/evgrezanov/wp-o2-tribute
+ * Text Domain: wp-o2-tribute
  * Domain Path: /languages
  */
 
 defined('ABSPATH') || exit;
-define( 'O2TAGIFY_VERSION', '1.0.0' );
+
+define('O2_TRIBUTE_VERSION', '1.2.0' );
 
 
-class WP_O2_TAGIFY {
+class WP_O2_TRIBUTE {
 
     public static function init() {
         add_action('wp_enqueue_scripts', [__CLASS__, 'assets']);
@@ -25,38 +26,43 @@ class WP_O2_TAGIFY {
     public static function assets(){
         wp_enqueue_script( 
             'tribute', 
-            plugins_url('wp-o2-tagify/asset/tribute.min.js'), 
-            array(), 
-            O2TAGIFY_VERSION 
+            plugins_url('wp-o2-tribute/asset/tribute/tribute.min.js'), 
+            array('jquery'), 
+            O2_TRIBUTE_VERSION 
         );
+
+        wp_register_script(
+            'tribute-action',
+            plugins_url('wp-o2-tribute/asset/script.js')
+          );
+        
+        wp_localize_script(
+            'tribute-action',
+            'tributeO2Data',
+            $arg_array = [
+                'endpoint' => get_rest_url(0, '/wp/v2/')
+            ]
+          );
 
         wp_enqueue_script( 
             'tribute-action', 
-            plugins_url('wp-o2-tagify/asset/script.js'), 
+            plugins_url('wp-o2-tribute/asset/script.js'), 
             array(
                 'tribute',
-                'o2-app' // mb can used only that
+                'o2-app'
             ), 
-            O2TAGIFY_VERSION,
+            O2_TRIBUTE_VERSION,
             true
         );
 
         wp_enqueue_style(
             'tribute-styles', 
-            plugins_url('wp-o2-tagify/asset/tribute.css')
+            plugins_url('wp-o2-tribute/asset/tribute/tribute.css')
         );
     }
 
-    public static function tagify_test(){
-        ob_start();
-    ?>
-<textarea name='mix'>
-            [[{"id":101, "value":"cartman", "title":"Eric Cartman"}]] and [[kyle]] do not know [[homer simpson]] because he's a relic.
-        </textarea>
-<?php
-    return ob_get_clean();
-    }
 }
 
-WP_O2_TAGIFY::init();
+WP_O2_TRIBUTE::init();
+
 ?>

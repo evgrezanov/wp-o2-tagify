@@ -1,7 +1,8 @@
 jQuery(document).ready(function ($) {
-  var tribute = new Tribute({
+  var config = window["tributeO2Data"];
+  var tributeCategories = new Tribute({
     values: function (text, cb) {
-      remoteSearch(text, (users) => cb(users));
+      categoryRemoteSearch(text, (categories) => cb(categories));
     },
     lookup: "name",
     fillAttr: "name",
@@ -23,17 +24,19 @@ jQuery(document).ready(function ($) {
         '<a href="' +
         item.original.link +
         '" target="_blank" title="' +
-        item.original.name +
+        item.original.description +
         '">@' +
         item.original.name +
         "</a>"
       );
     },
     requireLeadingSpace: false,
+    noMatchTemplate: "No categories for show",
+    trigger: "@",
   });
 
-  function remoteSearch(text, cb) {
-    var URL = "http://o2.local/wp-json/wp/v2/categories";
+  function categoryRemoteSearch(text, cb) {
+    var URL = config["endpoint"] + "categories";
     xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
@@ -49,5 +52,5 @@ jQuery(document).ready(function ($) {
     xhr.send();
   }
 
-  tribute.attach(document.querySelectorAll(".o2-editor-text"));
+  tributeCategories.attach(document.querySelectorAll(".o2-editor-text"));
 });
