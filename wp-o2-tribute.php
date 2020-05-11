@@ -5,7 +5,7 @@
  * Plugin URI:  https://github.com/evgrezanov/wp-o2-tribute
  * Author URI:  https://www.upwork.com/freelancers/~01ea58721977099d53
  * Author:      <a href="https://www.upwork.com/freelancers/~01ea58721977099d53" target="_blank">Evgeniy Rezanov</a>
- * Version:     1.2.0
+ * Version:     1.2.3
  * GitHub Plugin URI: evgrezanov/wp-o2-tribute
  * GitHub Plugin URI: https://github.com/evgrezanov/wp-o2-tribute
  * Text Domain: wp-o2-tribute
@@ -14,7 +14,7 @@
 
 defined('ABSPATH') || exit;
 
-define('O2_TRIBUTE_VERSION', '1.2.0' );
+define('O2_TRIBUTE_VERSION', '1.2.3' );
 
 
 class WP_O2_TRIBUTE {
